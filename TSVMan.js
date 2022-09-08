@@ -16,7 +16,7 @@ let util = new Util();
 const service_port = process.env.SERVICE_PORT || 80;
 const secret_key = process.env.SECRET_KEY || "security";
 const hours_to_keep_tsv = process.env.HOURS_TO_KEEP_TSV || 48;
-const keep_time = ((hours_to_keep_tsv * 60) * 60) * 1000;
+const ms_to_keep_tsv = ((hours_to_keep_tsv * 60) * 60) * 1000;
 
 app.use("/", router);
 app.use(cors({ origin: '*', methods: ['GET', 'POST'] }));
@@ -120,7 +120,7 @@ try {
                         return console.error(err);
                     }
                     now = new Date().getTime();
-                    endTime = new Date(stat.ctime).getTime() + 172800000;
+                    endTime = new Date(stat.ctime).getTime() + ms_to_keep_tsv;
                     if (now > endTime) {
                         return rimraf(path.join(uploadsDir, file), function (err) {
                             if (err) {
