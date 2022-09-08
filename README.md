@@ -51,7 +51,7 @@ In cases where you haven't created the TSV as public and want to use the master 
 ### Other things to know
 
 * To install TSVMan, simply clone this repo, run 'npm install', set any environment variables e.g. `export SECRET_KEY=abc123` then 'node TSVMan.js' and you're live. 
-* To keep TSVMan running 24/7 in the background, use [Forever]https://www.npmjs.com/package/forever e.g. `forever start TSVMan.js`
+* To keep TSVMan running 24/7 in the background, use [Forever](https://www.npmjs.com/package/forever) e.g. `forever start TSVMan.js`
 * TSVMan runs on either port 80, or a port you can specify using the environment variable `SERVICE_PORT`
 * TSVs are kept for 48 hours unless otherwise specified by an environment variable `HOURS_TO_KEEP_TSV`
 * You can browse the files in the /TSV folder and retrieve them manually. They are actual files.
