@@ -1,38 +1,56 @@
 ## Welcome
 
-<p>Welcome to TSVMan, a really simple utility to create and host TSVs for Google Cloud Storage URL Lists. 
-These are handy for importing files from public or signed links to your GCS Buckets.</p>
+Welcome to **TSVMan**, a really simple utility to create and host TSVs for Google Cloud Storage URL Lists. 
+These are handy for importing files from public or signed links to your GCS Buckets.
 
-<p>The Web UI will only indicate that the app is running and how many request types it has served. 
+The Web UI will only indicate that the app is running and how many request types it has served. 
 You will need to pipe the console output to a file to keep a log (it gives details on each creation and retrieval) 
-or run it manually just as needed.</p>
+or run it manually just as needed.
 
-### How does it work?
+## How does it work?
 
-<p>TSVMan listens for POST or GET requests to create or retrieve a .TSV file, created from a list of URLs you want to download into your GCS bucket.</p>
-<p>POST requests must include a <em>secret_key</em> plus a <em>tsv_key</em>. The secret key is set via an environment variable `SECRET_KEY` 
-or is set to "security" by default. The TSV key is provided as a response when you create a TSV. So let's start there.</p>
+TSVMan listens for POST or GET requests to create or retrieve a .TSV file, created from a list of URLs you want to download into your GCS bucket.
+POST requests must include a *secret_key* plus a *tsv_key*. The secret key is set via an environment variable `SECRET_KEY` 
+or is set to "security" by default. The TSV key is provided as a response when you create a TSV. So let's start there.
 
-### Creating a TSV
+## Creating a TSV
 
-<p>Send a POST request to `http://yourserver/createTSV` with body contents like:</p>
+Send a POST request to `http://yourserver/createTSV` with body contents like:
 
-<p>`{
+```
+{
 "secret_key":"security",
 "urls":["www.mypublicsite.com/myFile1.jpg", "www.mypublicsite.com/myFile2.jpg", "www.mypublicsite.com/myFile3.jpg"],
 "public":true
-}`</p>
+}
+```
 
-<p>The <em>public</em> parameter represents whether you can retrieve the TSV using just the public key or if you have to provide the secret key as well.</p>
+The server will send a standard 200 OK response with a message containing the unique key for the TSV you just made. If you set the *public* parameter
+to true, that unique key can be used to retrieve the TSV without providing a secret key.
 
-### Retreiving a TSV
+## Retreiving a TSV
 
-<p>Send a GET request to `http://yourserver.com/getTSV` with query string parameters of either a `public_key` or the combination of a `secret_key` 
-and a `tsv_key` for files which were not created as public. For example...</p>
+Send a GET request to `http://yourserver.com/getTSV` with query string parameters of either a `public_key` or the combination of a `secret_key` 
+and a `tsv_key` for files which were not created as public. For example...
 
-<p>`http://yourserver.com/getTSV?public_key=e2fc5f13-b27f-4105-aac7-c2c7696edeb1_1662666444124` returns a response like</p>
+## Public Key
 
-<p>`TsvHttpData-1.0\n
-www.mypublicsite.com/myFile1.jpg\n
-www.mypublicsite.com/myFile2.jpg\n
-www.mypublicsite.com/myFile3.jpg`<p>
+`http://yourserver.com/getTSV?public_key=e2fc5f13-b27f-4105-aac7-c2c7696edeb1_1662666444124` returns a response like
+
+```
+TsvHttpData-1.0\n
+www.mypublicsite.com/myFile1.jpg
+www.mypublicsite.com/myFile2.jpg
+www.mypublicsite.com/myFile3.jpg
+```
+
+... and could also be used as a 'public link' to the TSV (perfect for feeding to GCS as a URL List link!)
+
+In cases where you haven't created the TSV as public and want to use the master key to retrieve it, `http://yourserver.com/getTSV?secret_key=security&tsv_key=e2fc5f13-b27f-4105-aac7-c2c7696edeb1_1662666444124` returns the same response as above. You could technically use this as a public link as well but you'd be exposing your secret key. It's a knee-high fence, really.
+
+### Other things to know
+
+* The app runs on either port 80, or a port you can specify using the environment variable `SERVICE_PORT`
+* TSVs are kept for 48 hours unless otherwise specified by an environment variable `HOURS_TO_KEEP_TSV`
+* You can browse the files in the /TSV folder and retrieve them manually. They are actual TSVs.
+* I will try to keep a free public version of this running at http://chahley.com:6969 but you'll probably want to deploy it on your own infrastructure for any real use.
