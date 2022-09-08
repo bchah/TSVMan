@@ -3,14 +3,37 @@
   "version": "1.0.0",
   "description": "",
   "main": "TSVMan.js",
+  "dependencies": {
+    "balanced-match": "^1.0.2",
+    "concat-map": "^0.0.1",
+    "brace-expansion": "^1.1.11",
+    "find-remove": "^4.0.4",
+    "fs.realpath": "^1.0.0",
+    "fmerge": "^1.2.0",
+    "glob": "^7.2.3",
+    "inflight": "^1.0.6",
+    "inherits": "^2.0.4",
+    "minimatch": "^3.1.2",
+    "once": "^1.4.0",
+    "path": "^0.12.7",
+    "path-is-absolute": "^1.0.1",
+    "rimraf": "^3.0.2",
+    "process": "^0.11.10",
+    "util": "^0.10.4",
+    "wrappy": "^1.0.2"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bchah/TSVMan.git"
+  },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "find-remove": "^4.0.4",
-    "path": "^0.12.7",
-    "rimraf": "^3.0.2"
-  }
+  "bugs": {
+    "url": "https://github.com/bchah/TSVMan/issues"
+  },
+  "homepage": "https://github.com/bchah/TSVMan#readme"
 }
