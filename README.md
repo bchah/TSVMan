@@ -50,7 +50,9 @@ In cases where you haven't created the TSV as public and want to use the master 
 
 ### Other things to know
 
-* The app runs on either port 80, or a port you can specify using the environment variable `SERVICE_PORT`
+* To install TSVMan, simply clone this repo, run 'npm install', set any environment variables e.g. `export SECRET_KEY=abc123` then 'node TSVMan.js' and you're live. 
+* To keep TSVMan running 24/7 in the background, use [Forever]https://www.npmjs.com/package/forever e.g. `forever start TSVMan.js`
+* TSVMan runs on either port 80, or a port you can specify using the environment variable `SERVICE_PORT`
 * TSVs are kept for 48 hours unless otherwise specified by an environment variable `HOURS_TO_KEEP_TSV`
 * You can browse the files in the /TSV folder and retrieve them manually. They are actual files.
-* Right now it just supports the URL itself, not the size and md5 fields. But if anybody ever reads this and submits the feature request, I'll be happy to write in support for those.
+* Right now TSVMan just supports the URL itself, not the size and md5 fields. But if anybody ever reads this and submits the feature request, I'll be happy to write in support for those.
