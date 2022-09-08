@@ -52,5 +52,5 @@ In cases where you haven't created the TSV as public and want to use the master 
 
 * The app runs on either port 80, or a port you can specify using the environment variable `SERVICE_PORT`
 * TSVs are kept for 48 hours unless otherwise specified by an environment variable `HOURS_TO_KEEP_TSV`
-* You can browse the files in the /TSV folder and retrieve them manually. They are actual TSVs.
-* I will try to keep a free public version of this running at http://chahley.com:6969 but you'll probably want to deploy it on your own infrastructure for any real use.
+* You can browse the files in the /TSV folder and retrieve them manually. They are actual files.
+* Right now it just supports the URL itself, not the size and md5 fields. But if anybody ever reads this and submits the feature request, I'll be happy to write in support for those.
