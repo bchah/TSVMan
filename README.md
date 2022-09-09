@@ -13,6 +13,12 @@ TSVMan listens for POST or GET requests to create or retrieve a .TSV file, creat
 POST requests must include a *secret_key* plus a *tsv_key*. The secret key is set via an environment variable `SECRET_KEY` 
 or is set to "security" by default. The TSV key is provided as a response when you create a TSV. So let's start there.
 
+## Installation
+
+TSVMan requires **NodeJS 16** or higher. Update your install at https://nodejs.org if you get a lower version when running `node -v`.
+
+To install TSVMan, simply clone this repo to a folder of your choosing, run `npm install`, set any environment variables e.g. `export SECRET_KEY=abc123` then 'node TSVMan.js' and you're live. 
+
 ## Creating a TSV
 
 Send a POST request to `http://yourserver/createTSV` with body contents like:
@@ -50,7 +56,6 @@ In cases where you haven't created the TSV as public and want to use the master 
 
 ### Other things to know
 
-* To install TSVMan, simply clone this repo, run 'npm install', set any environment variables e.g. `export SECRET_KEY=abc123` then 'node TSVMan.js' and you're live. 
 * To keep TSVMan running 24/7 in the background, use [Forever](https://www.npmjs.com/package/forever) e.g. `forever start TSVMan.js`
 * TSVMan runs on either port 80, or a port you can specify using the environment variable `SERVICE_PORT`
 * TSVs are kept for 48 hours unless otherwise specified by an environment variable `HOURS_TO_KEEP_TSV`
