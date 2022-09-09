@@ -1,6 +1,6 @@
 {
   "name": "tsvman",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Welcome to **TSVMan**, a really simple utility to create and host TSVs for Google Cloud Storage URL Lists.  These are handy for importing files from public or signed links to your GCS Buckets.",
   "main": "TSVMan.js",
   "scripts": {
@@ -20,10 +20,13 @@
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "os": "^0.1.2",
+    "path": "^0.12.7",
     "rimraf": "^3.0.2"
   },
-  "engines" : { 
-    "npm" : ">=7.0.0",
-    "node" : ">=16.0.0"
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.0.0"
   }
 }

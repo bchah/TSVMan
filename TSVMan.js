@@ -1,4 +1,17 @@
 
+const { Util } = require("./Util");
+let util = new Util();
+
+const startup_time = util.niceDate();
+console.log(`${startup_time} : TSVMan v1.0.1 is starting up...`);
+
+const crypto = require('crypto');
+try { 
+    const crypto_test = crypto.randomUUID();
+ } catch(err) {
+    console.log(`${util.niceDate()} : NodeJS is too out of date to start TSVMan! Please update NodeJS / NPM from the latest stable installer at NodeJS.org`);
+    process.exit(1);
+    };
 const express = require("express");
 const os = require("os");
 const router = express.Router();
@@ -6,16 +19,10 @@ const e = require("express");
 const app = express();
 const fs = require('fs');
 const cors = require('cors');
-const { Util } = require("./Util");
-try { const crypto = require('node:crypto') } catch(err) {
-console.log("NodeJS is too out of date to start TSVMan! Please update NodeJS / NPM from the latest stable installer at NodeJS.org");
-process.exit(1);
-};
 const path = require('path');
 const rimraf = require('rimraf');
 
-let util = new Util();
-const service_port = process.env.SERVICE_PORT || 80;
+const service_port = Number(process.env.SERVICE_PORT) || 80;
 const secret_key = process.env.SECRET_KEY || "security";
 const hours_to_keep_tsv = process.env.HOURS_TO_KEEP_TSV || 48;
 const ms_to_keep_tsv = ((hours_to_keep_tsv * 60) * 60) * 1000;
@@ -26,7 +33,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 let jsonParser = express.json();
 
-const startup_time = util.niceDate();
 let serve_count = 0;
 let create_count = 0;
 let error_count = 0;
@@ -49,7 +55,8 @@ try {
         let tsvpath = `./TSV/${tsvname}.tsv`;
         fs.writeFile(tsvpath, tsvdata, () => {
             res.status(200).send(tsvname.replace("public_", ""));
-            console.log(`${util.niceDate()} : Created TSV ${tsvpath} ${req.body.public ? "(Publicly Accessible)" : ""}`);
+            let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || "an unidentified private user"
+            console.log(`${util.niceDate()} : Created TSV ${tsvpath} for ${ip} ${req.body.public ? "(Publicly Accessible)" : ""}`);
             create_count++;
             return true;
         });
@@ -110,7 +117,7 @@ try {
         }
     });
 
-    app.listen(service_port, () => { console.log(`${util.niceDate()} : App Ready`); });
+    app.listen(service_port, () => { console.log(`${util.niceDate()} : TSVMan is ready, listening on port ${service_port}`); });
 
     setInterval(() => {
         var uploadsDir = __dirname + '/TSV';
