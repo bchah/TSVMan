@@ -1,6 +1,5 @@
 
 const express = require("express");
-const bodyParser = require("body-parser");
 const os = require("os");
 const router = express.Router();
 const e = require("express");
@@ -8,7 +7,10 @@ const app = express();
 const fs = require('fs');
 const cors = require('cors');
 const { Util } = require("./Util");
-const crypto = require('crypto');
+try { const crypto = require('node:crypto') } catch(err) {
+console.log("NodeJS is too out of date to start TSVMan! Please update NodeJS / NPM from the latest stable installer at NodeJS.org");
+process.exit(1);
+};
 const path = require('path');
 const rimraf = require('rimraf');
 
@@ -35,6 +37,7 @@ try {
         let key = req.body.secret_key || "";
         if (key != secret_key) { res.status(403).send("Missing or incorrect secret key!"); return false; }
         let urls = req.body.urls;
+        if (!urls || urls.length < 1) { res.status(400).send("Missing expected array of URLs!"); return false; }
         let urlstring = urls.join("\n");
         let tsvdata = `TsvHttpData-1.0\n${urlstring}`;
         console.log(`${util.niceDate()} : Creating TSV from these ${urls.length} URLs: ${urls.join(", ")}`);
